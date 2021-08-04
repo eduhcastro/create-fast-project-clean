@@ -18,7 +18,7 @@ class CreateFilePackageService{
     system,
     path
   }: ICreateFilePackageService){
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       const packageTemplate = new ConfigureFilePackageService({
         modules,
         author,
@@ -26,9 +26,8 @@ class CreateFilePackageService{
         system,
       });
 
-      console.log(packageTemplate.handler())
 
-      fs.writeFile(`./projects/${path}/package.json`, JSON.stringify(PackageTemplate), (err) => {
+      fs.writeFile(`./projects/${path}/package.json`, JSON.stringify(await packageTemplate.handler(), null , 4), (err) => {
         if (err) {
           reject(err);
         } else {

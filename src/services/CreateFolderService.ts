@@ -39,7 +39,7 @@ class CreateFolderService extends After {
     }: ICreateFolderService){
         try {
             let tempFolderName;
-
+            let tempPathName;
             if (folderName.length === 0 || typeof folderName !== 'string') {
                 throw "Invalid folder name"
             }
@@ -47,14 +47,16 @@ class CreateFolderService extends After {
             if(folderPath === "./projects"){
                 const nodeCache = new NodeCacheService()
                 tempFolderName = `${this.tempTime()}-${folderName}`
+                tempPathName = './projects'
                 nodeCache.set("Config", {
                     nameFolder: tempFolderName // Update cache
                 })
             }else{
                 tempFolderName = folderName
+                tempPathName = folderPath
             }
 
-            let folderPathCreate = path.join('./projects', tempFolderName);
+            let folderPathCreate = path.join(tempPathName, tempFolderName);
             if (this.existindFolder(folderPathCreate)) {
                 throw "There is already a folder with the same name"
             }

@@ -28,7 +28,7 @@ class MenuListService{
       chalk.bold.hex("#fff")('\n4 -> PgSQL<Puro>')+
       chalk.bold.hex("#fff")('\n5 -> PgSQL<ORM>')+
       chalk.bold.hex("#fff")('\n6 -> JWT')+
-      chalk.bold.hex("#fff")('\n6 -> Chalk')+
+      chalk.bold.hex("#fff")('\n7 -> Chalk')+
       chalk.bold.hex("#fff")('\n0 -> exit')
     }
   ]

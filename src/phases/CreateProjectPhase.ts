@@ -37,14 +37,35 @@ class CreateProjectPhase{
     const cacheConfig = new GetConfigCacheController().handler()
     const cacheUser = new GetUserCacheController().handler()
 
+    /**
+     * 1. Create Package
+     */
     const CreatePackage = new CreateFilePackageController()
     await CreatePackage.execute({
-      modules: cacheConfig.objects,
+      modules: cacheConfig.modules,
       author: cacheUser.name,
       name: "Teste",
       system: cacheUser.system,
       path: `${cacheConfig.nameFolder}`
     })
+
+    /**
+      * 2. Create Folders
+      */
+    const CreateFolder = new CreateFolderController()
+    const findSystem = this.alternativesSystem.find(x => x.name === cacheUser.system)
+
+    if(typeof findSystem === "undefined"){
+      throw Error(`System ${cacheUser.system} not found`)
+    }
+
+    for(let folder of findSystem.folders.split("/")){
+      CreateFolder.execute({
+        folderName: folder,
+        folderPath: `./projects/${cacheConfig.nameFolder}/`
+      })
+    }
+
   }
 
 }

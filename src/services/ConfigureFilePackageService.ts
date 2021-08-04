@@ -1,13 +1,18 @@
+import GetVersionModuleService from "./GetVersionModuleService"
 
 interface IConfigureFilePackageService {
-  modules: object
+  modules: any
   author: string
   name: string
   system: string
 }
 
 class ConfigureFilePackageService {
-  formated: any
+  format: any
+  modules: Array<any>
+  author: string
+  name: string
+  system: string
 
   constructor({
     modules,
@@ -15,7 +20,7 @@ class ConfigureFilePackageService {
     name,
     system,
   }: IConfigureFilePackageService) {
-
+    
     const format = {
       name: null,
       version: "1.0.0",
@@ -30,21 +35,44 @@ class ConfigureFilePackageService {
       }
     }
 
-    let dependencies = {}
-    for(let dependencie of Object.keys(modules)){
-      dependencies.push()
-    }
-
-    this.formated = Object.assign(format, {
-      name: author + "/" + name,
-      dependencies: {
-        "systemjs": system
-      }
-    })
+    this.modules = modules
+    this.author = author
+    this.name = name
+    this.system = system
+    this.format = format
   }
 
-  public handler(){
-    return this.formated
+  private typeScript(){
+    return {
+      "build": "tsc",
+      "start": "node build/index.js",
+      "dev": "ts-node-dev --ignore-watch node_modules src/index.ts"
+    }
+  }
+
+  private javaScript(){
+    return {
+      "start": "node index.js",
+    }
+  }
+
+  public async handler(){
+
+    const versionModule = new GetVersionModuleService()
+
+    const dependencies = {} as Array<string>
+
+    // add all modules to const teste
+   
+    for(let moduley of this.modules){
+      dependencies[moduley.module] = `^${await versionModule.handler(moduley.module)}`
+    }
+
+    return Object.assign(this.format, {
+      name: this.author + "/" + this.name,
+      dependencies: dependencies,
+      scripts: this.system === "NodeJS(TS)" ? this.typeScript() : this.javaScript(),
+    })
   }
 }
 

@@ -15,11 +15,13 @@ interface IUpdateUserCacheController{
 class UpdateUserCacheController{
   constructor({
     level,
+    system,
     user
   }: IUpdateUserCacheController){
     const NodeCache = new NodeCacheService()
     NodeCache.set("User", { 
       name: user,
+      system,
       level
      })
   }

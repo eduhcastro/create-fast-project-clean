@@ -42,7 +42,7 @@ class MenuService extends MenuListService {
 
         const question1 = () => {
             return new Promise((resolve, reject) => {
-                rl.question(this.selectPhase(0).text + "\n", (answer) => {
+                rl.question(this.selectPhase(0).text + "\n", async (answer) => {
                     const insertUserPharse = new InsertUserPhase()
                     insertUserPharse.handler({
                         text: answer.toString().trim()

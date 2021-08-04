@@ -1,0 +1,17 @@
+{
+    "name": "Eduardo/Teste",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "build": "tsc",
+        "start": "node build/index.js",
+        "dev": "ts-node-dev --ignore-watch node_modules src/index.ts"
+    },
+    "devDependencies": {},
+    "dependencies": {
+        "express": "^4.17.1",
+        "mysql": "^2.18.1",
+        "jsonwebtoken": "^8.5.1"
+    }
+}
